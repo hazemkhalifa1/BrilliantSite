@@ -1,0 +1,40 @@
+## .NET build artifacts
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+[xX]64/
+[xX]86/
+*.user
+*.suo
+
+## Visual Studio / Rider
+.vs/
+.idea/
+*.userosscache
+*.sln.docstates
+
+## EF Core migrations runtime
+/appsettings.Production.json
+
+## Uploaded files / wwwroot content (keep folder, ignore files)
+src/BrilliantEngineering.API/wwwroot/images/
+src/BrilliantEngineering.API/wwwroot/docs/
+!src/BrilliantEngineering.API/wwwroot/
+!src/BrilliantEngineering.API/wwwroot/.gitkeep
+
+## Logs
+*.log
+logs/
+Logs/
+
+## Environment / secrets
+*.env
+.env.*
+appsettings.*.local.json
+secrets.json
+
+## Test results
+[Tt]est[Rr]esult*/
+*.trx
+coverage/
