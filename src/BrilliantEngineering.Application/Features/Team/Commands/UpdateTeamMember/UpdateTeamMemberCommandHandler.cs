@@ -26,6 +26,8 @@ public class UpdateTeamMemberCommandHandler : IRequestHandler<UpdateTeamMemberCo
         member.NameAr = request.NameAr;
         member.JobTitle = request.JobTitle;
         member.JobTitleAr = request.JobTitleAr;
+        member.Description = request.Description;
+        member.DescriptionAr = request.DescriptionAr;
         member.ImagePath = request.ImagePath;
         member.IsActive = request.IsActive;
 

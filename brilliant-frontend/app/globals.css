@@ -145,13 +145,18 @@ html[lang="ar"] .monospaced {
 
   .reveal-on-scroll {
     opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateY(28px);
+    filter: blur(8px);
+    transition:
+      opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .reveal-on-scroll.visible {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 
   .brutalist-border {
@@ -168,5 +173,56 @@ html[lang="ar"] .monospaced {
   .brutalist-card:hover {
     transform: translate(-2px, -2px);
     box-shadow: 8px 8px 0px #0059BB;
+  }
+
+  /* Team page — technical drawing sheet + smooth motion */
+  .blueprint-grid {
+    background-image:
+      linear-gradient(to right, rgba(17, 28, 45, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(17, 28, 45, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .team-photo {
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .team-accent {
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .team-monogram {
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .team-card:hover .team-accent {
+    width: 4rem;
+  }
+
+  .team-card:hover .team-monogram {
+    transform: translate(-0.5rem, -0.5rem);
+  }
+
+  .team-card:hover .team-photo {
+    transform: scale(1.045);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+
+  .team-photo,
+  .team-accent,
+  .team-monogram {
+    transition: none;
+  }
+
+  .team-card:hover .team-photo {
+    transform: none;
   }
 }

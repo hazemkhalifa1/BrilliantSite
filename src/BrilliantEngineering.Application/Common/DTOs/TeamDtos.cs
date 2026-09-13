@@ -6,6 +6,8 @@ public record TeamMemberDto(
     string? NameAr,
     string JobTitle,
     string? JobTitleAr,
+    string Description,
+    string? DescriptionAr,
     string ImagePath,
     int Order,
     bool IsActive,

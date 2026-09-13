@@ -147,6 +147,8 @@ export interface TeamMember {
   nameAr: string | null;
   jobTitle: string;
   jobTitleAr: string | null;
+  description: string;
+  descriptionAr: string | null;
   imagePath: string;
   order: number;
   isActive: boolean;

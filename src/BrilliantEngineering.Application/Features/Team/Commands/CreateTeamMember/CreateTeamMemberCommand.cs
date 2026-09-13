@@ -8,5 +8,7 @@ public record CreateTeamMemberCommand(
     string? NameAr,
     string JobTitle,
     string? JobTitleAr,
+    string Description,
+    string? DescriptionAr,
     string ImagePath,
     bool IsActive) : IRequest<TeamMemberDto>;

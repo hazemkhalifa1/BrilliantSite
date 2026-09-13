@@ -26,6 +26,8 @@ public class CreateTeamMemberCommandHandler : IRequestHandler<CreateTeamMemberCo
             NameAr = request.NameAr,
             JobTitle = request.JobTitle,
             JobTitleAr = request.JobTitleAr,
+            Description = request.Description,
+            DescriptionAr = request.DescriptionAr,
             ImagePath = request.ImagePath,
             Order = nextOrder,
             IsActive = request.IsActive,

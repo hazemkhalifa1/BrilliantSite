@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BrilliantEngineering.API/BrilliantEngineering.API.csproj" />
+    <Project Path="src/BrilliantEngineering.Application/BrilliantEngineering.Application.csproj" />
+    <Project Path="src/BrilliantEngineering.Domain/BrilliantEngineering.Domain.csproj" />
+    <Project Path="src/BrilliantEngineering.Infrastructure/BrilliantEngineering.Infrastructure.csproj" />
+  </Folder>
+</Solution>

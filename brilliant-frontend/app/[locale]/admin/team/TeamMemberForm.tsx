@@ -9,6 +9,7 @@ import { apiFetch } from "@/lib/api";
 import type { TeamMember } from "@/types";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { TextArea } from "@/components/admin/TextArea";
 import { Toggle } from "@/components/admin/Toggle";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 
@@ -26,6 +27,8 @@ export function TeamMemberForm({ initial }: TeamMemberFormProps) {
   const [nameAr, setNameAr] = useState(initial?.nameAr ?? "");
   const [jobTitle, setJobTitle] = useState(initial?.jobTitle ?? "");
   const [jobTitleAr, setJobTitleAr] = useState(initial?.jobTitleAr ?? "");
+  const [description, setDescription] = useState(initial?.description ?? "");
+  const [descriptionAr, setDescriptionAr] = useState(initial?.descriptionAr ?? "");
   const [imagePath, setImagePath] = useState<string | null>(initial?.imagePath ?? null);
   const [isActive, setIsActive] = useState(initial?.isActive ?? true);
   const [error, setError] = useState<string | null>(null);
@@ -45,6 +48,8 @@ export function TeamMemberForm({ initial }: TeamMemberFormProps) {
         nameAr: nameAr.trim() || null,
         jobTitle,
         jobTitleAr: jobTitleAr.trim() || null,
+        description,
+        descriptionAr: descriptionAr.trim() || null,
         imagePath: imagePath ?? "",
         isActive,
       };
@@ -111,6 +116,24 @@ export function TeamMemberForm({ initial }: TeamMemberFormProps) {
           name="jobTitleAr"
           value={jobTitleAr}
           onChange={(event) => setJobTitleAr(event.target.value)}
+          placeholder={t("arPlaceholder")}
+        />
+
+        <TextArea
+          label={t("description")}
+          name="description"
+          rows={4}
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
+          placeholder={t("descriptionPlaceholder", { entity: section("entity") })}
+        />
+
+        <TextArea
+          label={t("descriptionAr")}
+          name="descriptionAr"
+          rows={4}
+          value={descriptionAr}
+          onChange={(event) => setDescriptionAr(event.target.value)}
           placeholder={t("arPlaceholder")}
         />
 

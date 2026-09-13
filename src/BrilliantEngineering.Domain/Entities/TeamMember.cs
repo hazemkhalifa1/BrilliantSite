@@ -8,6 +8,8 @@ public class TeamMember : BaseEntity
     public string? NameAr { get; set; }
     public string JobTitle { get; set; } = string.Empty;
     public string? JobTitleAr { get; set; }
+    public string Description { get; set; } = string.Empty;
+    public string? DescriptionAr { get; set; }
     public string ImagePath { get; set; } = string.Empty;
     public int Order { get; set; }
     public bool IsActive { get; set; } = true;

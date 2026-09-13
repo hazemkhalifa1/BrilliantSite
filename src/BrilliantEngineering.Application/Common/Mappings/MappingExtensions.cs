@@ -144,6 +144,8 @@ public static class MappingExtensions
         src.NameAr,
         src.JobTitle,
         src.JobTitleAr,
+        src.Description,
+        src.DescriptionAr,
         src.ImagePath,
         src.Order,
         src.IsActive,
