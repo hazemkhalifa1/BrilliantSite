@@ -11,6 +11,8 @@ public class Service : BaseEntity
     public string IconPath { get; set; } = string.Empty;
     public int CategoryId { get; set; }
     public ServiceCategory? Category { get; set; }
+    public int? RelatedBlogPostId { get; set; }
+    public BlogPost? RelatedBlogPost { get; set; }
     public int Order { get; set; }
     public bool IsActive { get; set; } = true;
 }

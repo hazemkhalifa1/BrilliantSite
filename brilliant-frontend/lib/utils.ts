@@ -5,18 +5,21 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+const LOCAL_ASSET_PREFIXES = ["/clients/"];
+
 export function getImageUrl(path?: string | null): string {
   if (!path) return "/placeholder.svg";
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  if (LOCAL_ASSET_PREFIXES.some((prefix) => path.startsWith(prefix))) return path;
   const base = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5222/api").replace(/\/api$/, "");
-  return `${base}${path}`;
+  return base + path;
 }
 
-export function formatDate(value?: string | null): string {
+export function formatDate(value?: string | null, locale: string = "en-GB"): string {
   if (!value) return "—";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleDateString("en-GB", {
+  return date.toLocaleDateString(locale, {
     day: "numeric",
     month: "short",
     year: "numeric",

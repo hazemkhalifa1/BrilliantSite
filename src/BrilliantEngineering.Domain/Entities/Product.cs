@@ -12,5 +12,7 @@ public class Product : BaseEntity
     public string DocumentationUrl { get; set; } = string.Empty;
     public int CategoryId { get; set; }
     public ProductCategory? Category { get; set; }
+    public int? RelatedBlogPostId { get; set; }
+    public BlogPost? RelatedBlogPost { get; set; }
     public bool IsActive { get; set; } = true;
 }

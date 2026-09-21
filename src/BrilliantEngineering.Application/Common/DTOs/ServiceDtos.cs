@@ -11,7 +11,11 @@ public record ServiceDto(
     string CategoryName,
     int Order,
     bool IsActive,
-    DateTime CreatedAt);
+    DateTime CreatedAt,
+    int? RelatedBlogPostId = null,
+    string? RelatedBlogPostTitle = null,
+    string? RelatedBlogPostTitleAr = null,
+    string? RelatedBlogPostSlug = null);
 
 public record ServiceCategoryDto(
     int Id,

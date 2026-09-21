@@ -5,6 +5,7 @@ import {
   Building2,
   FolderKanban,
   Handshake,
+  MessageSquareQuote,
   Newspaper,
   Package,
   Settings,
@@ -32,6 +33,12 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
     { label: t("labels.blog"), href: "/admin/blog", endpoint: "/blog?pageSize=1", icon: Newspaper },
     { label: t("labels.team"), href: "/admin/team", endpoint: "/team?pageSize=1", icon: Users },
     { label: t("labels.clients"), href: "/admin/clients", endpoint: "/clients?pageSize=1", icon: Handshake },
+    {
+      label: t("labels.testimonials"),
+      href: "/admin/testimonials",
+      endpoint: "/testimonials?pageSize=1",
+      icon: MessageSquareQuote,
+    },
   ];
 
   const stats = await Promise.all(
@@ -97,6 +104,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
               { label: t("newBlogPost"), href: "/admin/blog/new" },
               { label: t("newTeamMember"), href: "/admin/team/new" },
               { label: t("newClient"), href: "/admin/clients/new" },
+              { label: t("newTestimonial"), href: "/admin/testimonials/new" },
             ].map((action) => (
               <Link
                 key={action.href}

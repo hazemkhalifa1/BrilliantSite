@@ -7,9 +7,10 @@ export interface RevealProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  from?: "up" | "left" | "right";
 }
 
-export function Reveal({ children, className, delay = 0 }: RevealProps) {
+export function Reveal({ children, className, delay = 0, from = "up" }: RevealProps) {
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -40,7 +41,12 @@ export function Reveal({ children, className, delay = 0 }: RevealProps) {
   return (
     <div
       ref={ref}
-      className={cn("reveal-on-scroll", className)}
+      className={cn(
+        "reveal-on-scroll",
+        from === "left" && "reveal-from-left",
+        from === "right" && "reveal-from-right",
+        className,
+      )}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}

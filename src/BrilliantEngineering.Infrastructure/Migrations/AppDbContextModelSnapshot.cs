@@ -315,9 +315,14 @@ namespace BrilliantEngineering.Infrastructure.Migrations
                     b.Property<string>("NameAr")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RelatedBlogPostId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("RelatedBlogPostId");
 
                     b.ToTable("Products");
                 });
@@ -505,6 +510,9 @@ namespace BrilliantEngineering.Infrastructure.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RelatedBlogPostId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -515,6 +523,8 @@ namespace BrilliantEngineering.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("RelatedBlogPostId");
 
                     b.ToTable("Services");
                 });
@@ -663,6 +673,53 @@ namespace BrilliantEngineering.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TeamMembers");
+                });
+
+            modelBuilder.Entity("BrilliantEngineering.Domain.Entities.Testimonial", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Quote")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuoteAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Testimonials");
                 });
 
             modelBuilder.Entity("BrilliantEngineering.Infrastructure.Data.AppUser", b =>
@@ -893,7 +950,14 @@ namespace BrilliantEngineering.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BrilliantEngineering.Domain.Entities.BlogPost", "RelatedBlogPost")
+                        .WithMany()
+                        .HasForeignKey("RelatedBlogPostId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("Category");
+
+                    b.Navigation("RelatedBlogPost");
                 });
 
             modelBuilder.Entity("BrilliantEngineering.Domain.Entities.ProductCategory", b =>
@@ -926,7 +990,14 @@ namespace BrilliantEngineering.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BrilliantEngineering.Domain.Entities.BlogPost", "RelatedBlogPost")
+                        .WithMany()
+                        .HasForeignKey("RelatedBlogPostId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("Category");
+
+                    b.Navigation("RelatedBlogPost");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

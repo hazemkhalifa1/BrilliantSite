@@ -72,6 +72,9 @@ export function BlogPostForm({ initial, tags }: BlogPostFormProps) {
       } else {
         await apiFetch("/blog", { method: "POST", body: JSON.stringify(body) });
       }
+      if (body.isPublished) {
+        fetch("/api/seo/ping", { method: "POST", keepalive: true }).catch(() => {});
+      }
       router.push("/admin/blog");
       router.refresh();
     } catch (err) {

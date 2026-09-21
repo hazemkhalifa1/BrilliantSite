@@ -23,6 +23,26 @@ public class PagedTeamMembersOrderedSpec : TeamMembersOrderedSpec
     }
 }
 
+public class TestimonialsOrderedSpec : BaseSpecification<Testimonial>
+{
+    public TestimonialsOrderedSpec(bool? onlyActive)
+    {
+        ApplyOrderBy(t => t.Order);
+
+        if (onlyActive == true)
+            ApplyCriteria(t => t.IsActive);
+    }
+}
+
+public class PagedTestimonialsOrderedSpec : TestimonialsOrderedSpec
+{
+    public PagedTestimonialsOrderedSpec(bool? onlyActive, int pageIndex, int pageSize)
+        : base(onlyActive)
+    {
+        ApplyPaging((pageIndex - 1) * pageSize, pageSize);
+    }
+}
+
 public class ClientsOrderedSpec : BaseSpecification<Client>
 {
     public ClientsOrderedSpec(bool? onlyActive)

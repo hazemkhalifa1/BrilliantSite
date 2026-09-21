@@ -12,4 +12,5 @@ public record UpdateServiceCommand(
     string IconPath,
     int CategoryId,
     int Order,
-    bool IsActive) : IRequest<ServiceDto>;
+    bool IsActive,
+    int? RelatedBlogPostId = null) : IRequest<ServiceDto>;

@@ -18,7 +18,11 @@ public static class MappingExtensions
         src.Category != null ? src.Category.BrandId : (int?)null,
         src.Category != null && src.Category.Brand != null ? src.Category.Brand.Name : string.Empty,
         src.IsActive,
-        src.CreatedAt);
+        src.CreatedAt,
+        src.RelatedBlogPostId,
+        src.RelatedBlogPost != null ? src.RelatedBlogPost.Title : null,
+        src.RelatedBlogPost != null ? src.RelatedBlogPost.TitleAr : null,
+        src.RelatedBlogPost != null ? src.RelatedBlogPost.Slug : null);
 
     public static IReadOnlyList<ProductDto> ToDtoList(this IEnumerable<Product> src)
         => src.Select(x => x.ToDto()).ToList();
@@ -60,7 +64,11 @@ public static class MappingExtensions
         src.Category != null ? src.Category.Name : string.Empty,
         src.Order,
         src.IsActive,
-        src.CreatedAt);
+        src.CreatedAt,
+        src.RelatedBlogPostId,
+        src.RelatedBlogPost != null ? src.RelatedBlogPost.Title : null,
+        src.RelatedBlogPost != null ? src.RelatedBlogPost.TitleAr : null,
+        src.RelatedBlogPost != null ? src.RelatedBlogPost.Slug : null);
 
     public static IReadOnlyList<ServiceDto> ToDtoList(this IEnumerable<Service> src)
         => src.Select(x => x.ToDto()).ToList();
@@ -164,6 +172,22 @@ public static class MappingExtensions
         src.CreatedAt);
 
     public static IReadOnlyList<ClientDto> ToDtoList(this IEnumerable<Client> src)
+        => src.Select(x => x.ToDto()).ToList();
+
+    public static TestimonialDto ToDto(this Testimonial src) => new(
+        src.Id,
+        src.Name,
+        src.NameAr,
+        src.Quote,
+        src.QuoteAr,
+        src.Role,
+        src.RoleAr,
+        src.ImagePath,
+        src.Order,
+        src.IsActive,
+        src.CreatedAt);
+
+    public static IReadOnlyList<TestimonialDto> ToDtoList(this IEnumerable<Testimonial> src)
         => src.Select(x => x.ToDto()).ToList();
 
     public static HeroDto ToDto(this HeroSection src) => new(

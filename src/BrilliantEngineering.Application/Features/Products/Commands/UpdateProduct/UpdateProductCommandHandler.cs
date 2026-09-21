@@ -35,6 +35,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         product.DocumentationUrl = request.DocumentationUrl;
         product.CategoryId = request.CategoryId;
         product.IsActive = request.IsActive;
+        product.RelatedBlogPostId = request.RelatedBlogPostId;
 
         _unitOfWork.Repository<Product>().Update(product);
         await _unitOfWork.Complete();

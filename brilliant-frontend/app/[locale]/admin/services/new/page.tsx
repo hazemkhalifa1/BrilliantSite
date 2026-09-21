@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { adminFetchList } from "@/lib/adminApi";
-import type { ServiceCategory } from "@/types";
+import type { BlogPost, ServiceCategory } from "@/types";
 import { ServiceForm } from "../ServiceForm";
 
 export const dynamic = "force-dynamic";
@@ -17,8 +17,13 @@ export async function generateMetadata({
 }
 
 export default async function NewServicePage() {
-  const categories = await adminFetchList<ServiceCategory>("/service-categories?pageSize=100")
-    .then((data) => data.items)
-    .catch(() => [] as ServiceCategory[]);
-  return <ServiceForm categories={categories} />;
+  const [categories, blogPosts] = await Promise.all([
+    adminFetchList<ServiceCategory>("/service-categories?pageSize=100")
+      .then((data) => data.items)
+      .catch(() => [] as ServiceCategory[]),
+    adminFetchList<BlogPost>("/blog?pageSize=100&publishedOnly=true")
+      .then((data) => data.items)
+      .catch(() => [] as BlogPost[]),
+  ]);
+  return <ServiceForm categories={categories} blogPosts={blogPosts} />;
 }

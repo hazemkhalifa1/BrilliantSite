@@ -6,7 +6,7 @@ import { useRouter } from "@/src/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
 import { apiFetch } from "@/lib/api";
-import type { Product, ProductBrand, ProductCategory } from "@/types";
+import type { BlogPost, Product, ProductBrand, ProductCategory } from "@/types";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { TextArea } from "@/components/admin/TextArea";
@@ -19,9 +19,10 @@ export interface ProductFormProps {
   initial?: Product;
   categories: ProductCategory[];
   brands: ProductBrand[];
+  blogPosts: BlogPost[];
 }
 
-export function ProductForm({ initial, categories, brands }: ProductFormProps) {
+export function ProductForm({ initial, categories, brands, blogPosts }: ProductFormProps) {
   const router = useRouter();
   const t = useTranslations("admin.form");
   const section = useTranslations("admin.sections.products");
@@ -43,6 +44,9 @@ export function ProductForm({ initial, categories, brands }: ProductFormProps) {
   const [categoryId, setCategoryId] = useState(initial ? String(initial.categoryId) : "");
   const [order, setOrder] = useState(initial?.order != null ? String(initial.order) : "0");
   const [isActive, setIsActive] = useState(initial?.isActive ?? true);
+  const [relatedBlogPostId, setRelatedBlogPostId] = useState(
+    initial?.relatedBlogPostId != null ? String(initial.relatedBlogPostId) : "",
+  );
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -78,6 +82,7 @@ export function ProductForm({ initial, categories, brands }: ProductFormProps) {
         categoryId: Number(categoryId),
         order: Number(order) || 0,
         isActive,
+        relatedBlogPostId: relatedBlogPostId ? Number(relatedBlogPostId) : null,
       };
       if (initial) {
         await apiFetch(`/products/${initial.id}`, {
@@ -186,6 +191,18 @@ export function ProductForm({ initial, categories, brands }: ProductFormProps) {
         <ImageUpload entity="products" label={t("productImage")} value={imagePath} onChange={setImagePath} />
 
         <DocumentUpload label={t("documentationFile")} value={documentationUrl} onChange={setDocumentationUrl} />
+
+        <Select
+          label={t("relatedBlogPost")}
+          name="relatedBlogPostId"
+          value={relatedBlogPostId}
+          onChange={(event) => setRelatedBlogPostId(event.target.value)}
+          options={blogPosts.map((post) => ({
+            value: String(post.id),
+            label: post.title,
+          }))}
+          placeholder={t("none")}
+        />
 
         <Input
           label={t("order")}

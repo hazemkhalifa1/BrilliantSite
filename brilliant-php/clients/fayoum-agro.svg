@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 84" role="img" aria-label="Fayoum Agro">
+  <rect x="14" y="14" width="56" height="56" fill="#111c2d"/>
+  <path d="M42 62 C22 50 22 26 42 16 C30 34 30 52 42 62 Z" fill="#0059bb"/>
+  <path d="M42 62 v-6" stroke="#ffffff" stroke-width="3" fill="none"/>
+  <text x="88" y="38" font-family="Space Grotesk, Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#111c2d">FAYOUM</text>
+  <text x="88" y="60" font-family="Space Grotesk, Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" letter-spacing="4" fill="#0059bb">AGRO</text>
+</svg>

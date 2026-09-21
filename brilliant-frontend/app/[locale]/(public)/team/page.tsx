@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/src/i18n/navigation";
+import { localeAlternates } from "@/lib/seo";
 import { apiFetch } from "@/lib/api";
 import type { PagedResult, TeamMember } from "@/types";
 import { Reveal } from "@/components/public/Reveal";
-import { TeamCard } from "@/components/public/TeamCard";
+import { Parallax } from "@/components/public/Parallax";
+import { TeamMembers } from "@/components/public/TeamMembers";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +19,7 @@ export async function generateMetadata({
   return {
     title: t("metadataTitle"),
     description: t("metadataDescription"),
+    alternates: localeAlternates(locale, "/team"),
   };
 }
 
@@ -31,6 +35,7 @@ const heroGridStyle = {
 export default async function TeamPage() {
   const t = await getTranslations("team");
   const footer = await getTranslations("footer");
+  const nav = await getTranslations("nav");
 
   const result = await apiFetch<PagedResult<TeamMember>>("/team?onlyActive=true&pageSize=50")
     .catch(() => ({ items: [] as TeamMember[], totalCount: 0, pageIndex: 1, pageSize: 50 }));
@@ -38,16 +43,27 @@ export default async function TeamPage() {
   const members = [...result.items].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   const [featured, ...supporting] = members;
 
+  const pillars = [
+    { n: "01", title: t("pillarPrecisionTitle"), text: t("pillarPrecisionText") },
+    { n: "02", title: t("pillarDeliveryTitle"), text: t("pillarDeliveryText") },
+    { n: "03", title: t("pillarSafetyTitle"), text: t("pillarSafetyText") },
+  ];
+
   return (
-    <div>
+    <div className="relative">
+      <Parallax speed={0.15} className="pointer-events-none absolute inset-0 -z-10">
+        <div aria-hidden="true" className="graph-grid h-full w-full opacity-70" />
+      </Parallax>
       {/* Hero */}
       <section className="relative overflow-hidden bg-neutral pb-24 pt-32 md:pb-32 md:pt-48">
         <div className="absolute inset-0" style={heroGridStyle} />
         <div className="absolute inset-0">
-          <div
-            className="h-full w-full bg-cover bg-center opacity-30 mix-blend-luminosity"
-            style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
-          />
+          <Parallax speed={0.08} className="h-full w-full">
+            <div
+              className="h-full w-full bg-cover bg-center opacity-30 mix-blend-luminosity"
+              style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
+            />
+          </Parallax>
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-neutral/80 to-neutral/50" />
 
@@ -67,31 +83,65 @@ export default async function TeamPage() {
       <section className="py-16 md:py-24">
         <div className="container-brilliant">
           {members.length === 0 ? (
-            <div className="card-brilliant bg-neutral-light/40 px-6 py-20 text-center">
-              <p className="font-headline text-lg font-semibold uppercase text-neutral">
-                {t("updating")}
-              </p>
-            </div>
+            <div className="neo-empty">{t("updating")}</div>
           ) : (
-            <div className="space-y-10 md:space-y-14">
-              {featured && (
-                <Reveal>
-                  <TeamCard member={featured} variant="featured" tagline={footer("tagline")} />
-                </Reveal>
-              )}
-
-              {supporting.length > 0 && (
-                <div className="grid gap-6 lg:grid-cols-2">
-                  {supporting.map((member, index) => (
-                    <Reveal key={member.id} delay={index * 80}>
-                      <TeamCard member={member} variant="row" />
-                    </Reveal>
-                  ))}
-                </div>
-              )}
-            </div>
+            <TeamMembers
+              featured={featured}
+              supporting={supporting}
+              tagline={footer("tagline")}
+            />
           )}
         </div>
+      </section>
+
+      {/* How we work */}
+      <section className="border-t-4 border-black bg-surface py-16 md:py-24">
+        <div className="container-brilliant grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <Reveal>
+              <span className="neo-badge">{t("pillarsEyebrow")}</span>
+            </Reveal>
+            <Reveal delay={60}>
+              <h2 className="mt-6 font-headline text-3xl font-bold uppercase leading-[0.95] tracking-tight text-neutral md:text-5xl">
+                {t("pillarsTitle")}
+              </h2>
+            </Reveal>
+          </div>
+          <div className="lg:col-span-8">
+            <div className="neo-pillars">
+              {pillars.map((pillar, index) => (
+                <Reveal key={pillar.n} delay={index * 80} from={index % 2 === 0 ? "left" : "right"}>
+                  <div className="h-full transition-transform duration-300 hover:-translate-y-1.5">
+                    <div className="pop-card" style={{ transitionDelay: `${index * 80 + 120}ms` }}>
+                      <div className="neo-pillar">
+                        <div className="neo-pillar__num">{pillar.n}</div>
+                        <div className="neo-pillar__title">{pillar.title}</div>
+                        <p className="neo-pillar__text">{pillar.text}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="border-t-4 border-black bg-neutral py-16 text-white md:py-20">
+        <Reveal>
+          <div className="container-brilliant flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+            <div>
+              <h2 className="font-headline text-3xl font-bold uppercase leading-[0.95] tracking-tight md:text-5xl">
+                {t("ctaTitle")}
+              </h2>
+              <p className="mt-4 max-w-xl text-white/70">{t("ctaText")}</p>
+            </div>
+            <Link href="/contact" className="btn-cta">
+              {nav("getQuote")}
+            </Link>
+          </div>
+        </Reveal>
       </section>
     </div>
   );

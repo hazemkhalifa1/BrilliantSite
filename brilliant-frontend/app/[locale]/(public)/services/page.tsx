@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Link } from "@/src/i18n/navigation";
 import { getTranslations } from "next-intl/server";
+import { localeAlternates } from "@/lib/seo";
 import { ArrowRight, ArrowDown } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import type { PagedResult, Service, ServiceCategory } from "@/types";
 import { Reveal } from "@/components/public/Reveal";
+import { Parallax } from "@/components/public/Parallax";
 import { ServiceBreakdown } from "@/components/public/ServiceBreakdown";
 
 export const dynamic = "force-dynamic";
@@ -18,6 +20,7 @@ export async function generateMetadata({
   return {
     title: t("metadataTitle"),
     description: t("metadataDescription"),
+    alternates: localeAlternates(locale, "/services"),
   };
 }
 
@@ -65,10 +68,12 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
       <section className="relative overflow-hidden bg-[#111C2D] pb-24 pt-32 md:pb-32 md:pt-48">
         <div className="absolute inset-0" style={heroGridStyle} />
         <div className="absolute inset-0">
-          <div
-            className="h-full w-full bg-cover bg-center opacity-30 mix-blend-luminosity"
-            style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
-          />
+          <Parallax speed={0.08} className="h-full w-full">
+            <div
+              className="h-full w-full bg-cover bg-center opacity-30 mix-blend-luminosity"
+              style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
+            />
+          </Parallax>
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#111C2D]/80 to-[#111C2D]/50" />
 
@@ -84,9 +89,10 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
           </p>
           <a
             href="#core"
-            className="inline-flex items-center gap-2 border-2 border-[#111C2D] bg-white px-10 py-4 font-headline text-sm font-bold uppercase tracking-widest text-[#111C2D] shadow-[6px_6px_0px_0px_#0059BB] transition-transform hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#0059BB]"
+            className="group inline-flex items-center gap-2 border-2 border-[#111C2D] bg-white px-10 py-4 font-headline text-sm font-bold uppercase tracking-widest text-[#111C2D] shadow-[6px_6px_0px_0px_#0059BB] transition-transform hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#0059BB]"
           >
-            {t("exploreCapabilities")} <ArrowDown className="h-5 w-5" />
+            {t("exploreCapabilities")}{" "}
+            <ArrowDown className="h-5 w-5 transition-transform duration-300 group-hover:translate-y-1" />
           </a>
         </div>
       </section>
@@ -109,8 +115,8 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
       {/* CTA */}
       <section className="bg-[#F9F9FF] py-24 md:py-32" style={surfaceGridStyle}>
         <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8">
-          <Reveal>
-            <div className="border-2 border-[#111C2D] bg-white p-10 text-center shadow-[6px_6px_0px_0px_#111C2D] md:p-14">
+          <Reveal from="left">
+            <div className="pop-card group border-2 border-[#111C2D] bg-white p-10 text-center shadow-[6px_6px_0px_0px_#111C2D] md:p-14">
               <h2 className="font-headline text-4xl font-bold uppercase italic leading-none tracking-tighter text-[#111C2D] md:text-6xl">
                 {t("ctaTitle1")} <span className="not-italic text-[#BA1A1A]">{t("ctaTitleAccent")}</span>
               </h2>
@@ -121,7 +127,8 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
                 href="/contact"
                 className="mt-10 inline-flex items-center gap-3 bg-[#BA1A1A] px-10 py-4 font-headline text-base font-bold uppercase tracking-widest text-white shadow-[4px_4px_0px_0px_#111C2D] transition-transform hover:-translate-x-1 hover:-translate-y-1"
               >
-                {t("initiateProtocol")} <ArrowRight className="h-5 w-5" />
+                {t("initiateProtocol")}{" "}
+                <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5" />
               </Link>
             </div>
           </Reveal>

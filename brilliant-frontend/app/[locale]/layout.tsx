@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { Cairo, Space_Grotesk } from "next/font/google";
 import { routing } from "@/src/i18n/routing";
+import { SITE_URL, canonicalUrl } from "@/lib/seo";
 import "../globals.css";
 
 const cairo = Cairo({
@@ -20,7 +21,7 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://brilliant-eng.com";
+const OG_IMAGE = `${SITE_URL}/logo.png`;
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -50,16 +51,24 @@ export async function generateMetadata({
     ],
     authors: [{ name: t("company") }],
     creator: t("company"),
+    alternates: {
+      canonical: canonicalUrl(locale),
+      languages: {
+        en: canonicalUrl("en"),
+        ar: canonicalUrl("ar"),
+        "x-default": canonicalUrl("en"),
+      },
+    },
     openGraph: {
       type: "website",
       locale: locale === "ar" ? "ar_EG" : "en_US",
-      url: SITE_URL,
+      url: canonicalUrl(locale),
       siteName: t("siteName"),
       title: t("title"),
       description: t("ogDescription"),
       images: [
         {
-          url: "/og-image.jpg",
+          url: OG_IMAGE,
           width: 1200,
           height: 630,
           alt: t("company"),
@@ -70,7 +79,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: t("title"),
       description: t("ogDescription"),
-      images: ["/og-image.jpg"],
+      images: [OG_IMAGE],
     },
     robots: {
       index: true,

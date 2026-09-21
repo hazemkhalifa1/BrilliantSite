@@ -12,7 +12,7 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.id}`}
-      className="card-brilliant group block overflow-hidden transition-colors hover:border-tertiary"
+      className="card-brilliant group block h-full overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-tertiary hover:shadow-[6px_6px_0px_0px_#0059bb]"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-neutral-light">
         <SiteImage

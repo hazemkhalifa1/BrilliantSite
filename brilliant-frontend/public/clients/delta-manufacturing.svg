@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 84" role="img" aria-label="Delta Manufacturing">
+  <path d="M42 14 L70 70 H14 Z" fill="#ba1a1a"/>
+  <path d="M42 30 L52 56 H32 Z" fill="#ffffff"/>
+  <text x="88" y="38" font-family="Space Grotesk, Segoe UI, Arial, sans-serif" font-size="30" font-weight="700" fill="#111c2d">DELTA</text>
+  <text x="88" y="60" font-family="Space Grotesk, Segoe UI, Arial, sans-serif" font-size="10.5" font-weight="600" letter-spacing="3" fill="#111c2d">MANUFACTURING</text>
+</svg>

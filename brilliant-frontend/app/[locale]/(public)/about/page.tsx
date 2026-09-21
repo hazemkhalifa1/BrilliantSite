@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Link } from "@/src/i18n/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
+import { localeAlternates } from "@/lib/seo";
 import {
   Factory,
   Building2,
@@ -14,6 +15,9 @@ import {
   Quote,
 } from "lucide-react";
 import { Reveal } from "@/components/public/Reveal";
+import { CountUp } from "@/components/public/CountUp";
+import { Parallax } from "@/components/public/Parallax";
+import { TiltCard } from "@/components/public/TiltCard";
 import { apiFetch } from "@/lib/api";
 import type { PagedResult, TeamMember } from "@/types";
 import { SiteImage } from "@/components/ui/SiteImage";
@@ -31,6 +35,7 @@ export async function generateMetadata({
   return {
     title: t("metadataTitle"),
     description: t("metadataDescription"),
+    alternates: localeAlternates(locale, "/about"),
   };
 }
 
@@ -74,13 +79,15 @@ export default async function AboutPage() {
     <div>
       {/* Hero */}
       <section className="relative flex min-h-[520px] items-center overflow-hidden bg-[#111C2D]">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1920&q=80')",
-          }}
-        />
+        <Parallax speed={0.08} className="absolute inset-0">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage:
+                "url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1920&q=80')",
+            }}
+          />
+        </Parallax>
         <div className="absolute inset-0 bg-[#111C2D]/80" />
         <div
           className="absolute inset-0 opacity-20"
@@ -111,7 +118,7 @@ export default async function AboutPage() {
       {/* Who We Are */}
       <section className="bg-white py-24 md:py-32">
         <div className="container-brilliant">
-          <Reveal>
+          <Reveal from="left">
             <div className="flex items-center gap-4">
               <div className="h-1 w-12 bg-[#0059BB]" />
               <span className="font-headline text-sm font-bold uppercase tracking-widest text-[#111C2D]">
@@ -122,7 +129,7 @@ export default async function AboutPage() {
               {t("whoWeAreTitle1")} <span className="italic text-[#BA1A1A]">{t("whoWeAreTitleAccent")}</span>
             </h2>
           </Reveal>
-          <Reveal delay={100}>
+          <Reveal from="right" delay={120}>
             <div className="mt-10 space-y-6 text-lg leading-relaxed text-[#4C4546]">
               <p>
                 {t("p1")}
@@ -147,36 +154,46 @@ export default async function AboutPage() {
                 {t("industries")} <span className="italic text-[#BA1A1A]">{t("industriesAccent")}</span>
               </h2>
               <div className="mx-auto mt-6 h-1 w-24 bg-[#0059BB]" />
-              <p className="mt-6 text-lg text-[#4C4546]">
-                {t("industriesSubtitle")}
-              </p>
             </div>
+          </Reveal>
+          <Reveal delay={140}>
+            <p className="mx-auto -mt-8 mb-16 max-w-2xl text-center text-lg text-[#4C4546]">
+              {t("industriesSubtitle")}
+            </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {INDUSTRIES.map((industry, index) => (
-              <Reveal key={industry.title} delay={index * 80}>
-                <div className="group flex h-full flex-col border-2 border-[#111C2D] bg-white p-8 transition-transform duration-300 hover:-translate-y-2">
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center bg-[#0059BB] text-white transition-colors group-hover:bg-[#BA1A1A]">
-                    <industry.icon className="h-7 w-7" />
+              <Reveal key={industry.title} delay={index * 80} from={index % 2 === 0 ? "left" : "right"}>
+                <div className="h-full transition-transform duration-300 hover:-translate-y-1.5 hover:-rotate-1">
+                  <div
+                    className="pop-card group flex h-full flex-col border-2 border-[#111C2D] bg-white p-8"
+                    style={{ transitionDelay: `${index * 80 + 120}ms` }}
+                  >
+                    <div className="mb-6 flex h-14 w-14 items-center justify-center bg-[#0059BB] text-white transition-colors duration-300 group-hover:bg-[#BA1A1A]">
+                      <industry.icon className="h-7 w-7 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
+                    </div>
+                    <h3 className="font-headline text-xl font-bold uppercase leading-snug tracking-tighter text-[#111C2D]">
+                      {industry.title}
+                    </h3>
                   </div>
-                  <h3 className="font-headline text-xl font-bold uppercase leading-snug tracking-tighter text-[#111C2D]">
-                    {industry.title}
-                  </h3>
                 </div>
               </Reveal>
             ))}
   
-              <div className="flex h-full flex-col justify-center border-2 border-[#BA1A1A] bg-[#BA1A1A] p-8">
-                <h3 className="font-headline text-xl font-bold uppercase leading-snug tracking-tighter text-white">
-                  {t("andMore")}
-                </h3>
-                <Link
-                  href="/contact"
-                  className="mt-6 inline-flex items-center gap-2 font-headline text-sm font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-80"
-                >
-                  {t("discussProject")} <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
+              <Reveal delay={400} from="up">
+                <div className="group flex h-full flex-col justify-center border-2 border-[#BA1A1A] bg-[#BA1A1A] p-8 transition-transform duration-300 hover:-translate-y-1.5">
+                  <h3 className="font-headline text-xl font-bold uppercase leading-snug tracking-tighter text-white">
+                    {t("andMore")}
+                  </h3>
+                  <Link
+                    href="/contact"
+                    className="mt-6 inline-flex items-center gap-2 font-headline text-sm font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-80"
+                  >
+                    {t("discussProject")}{" "}
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                  </Link>
+                </div>
+              </Reveal>
 
           </div>
         </div>
@@ -216,15 +233,20 @@ export default async function AboutPage() {
           </Reveal>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {PILLARS.map((pillar, index) => (
-              <Reveal key={pillar.title} delay={index * 100}>
-                <div className="group flex h-full flex-col border-2 border-white/20 bg-white/5 p-10 transition-colors hover:border-[#BA1A1A]">
-                  <div className="mb-8 flex h-16 w-16 items-center justify-center bg-[#0059BB] text-white">
-                    <pillar.icon className="h-8 w-8" />
+              <Reveal key={pillar.title} delay={index * 100} from={index % 2 === 0 ? "left" : "right"}>
+                <div className="h-full transition-transform duration-300 hover:-translate-y-1.5">
+                  <div
+                    className="pop-card group flex h-full flex-col border-2 border-white/20 bg-white/5 p-10 transition-colors duration-300 hover:border-[#BA1A1A]"
+                    style={{ transitionDelay: `${index * 100 + 120}ms` }}
+                  >
+                    <div className="mb-8 flex h-16 w-16 items-center justify-center bg-[#0059BB] text-white">
+                      <pillar.icon className="h-8 w-8 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
+                    </div>
+                    <h3 className="font-headline text-2xl uppercase italic tracking-tighter text-white">
+                      {pillar.title}
+                    </h3>
+                    <p className="mt-4 leading-relaxed text-slate-300">{pillar.text}</p>
                   </div>
-                  <h3 className="font-headline text-2xl uppercase italic tracking-tighter text-white">
-                    {pillar.title}
-                  </h3>
-                  <p className="mt-4 leading-relaxed text-slate-300">{pillar.text}</p>
                 </div>
               </Reveal>
             ))}
@@ -237,18 +259,22 @@ export default async function AboutPage() {
         <div className="container-brilliant">
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {STATS.map((stat, index) => (
-              <Reveal key={stat.label} delay={index * 80}>
-                <div className="border-2 border-[#111C2D] bg-white p-8 text-center shadow-[4px_4px_0px_0px_#111C2D]">
-                  <p
-                    className={`font-headline text-4xl font-bold md:text-5xl ${
-                      index === STATS.length - 1 ? "text-[#BA1A1A]" : "text-[#0059BB]"
-                    }`}
+              <Reveal key={stat.label} delay={index * 80} from={index % 2 === 0 ? "left" : "right"}>
+                <div className="h-full transition-transform duration-300 hover:-translate-y-1.5 hover:-rotate-1">
+                  <div
+                    className="pop-card border-2 border-[#111C2D] bg-white p-8 text-center shadow-[4px_4px_0px_0px_#111C2D]"
+                    style={{ transitionDelay: `${index * 80 + 120}ms` }}
                   >
-                    <span dir="ltr">{stat.value}</span>
-                  </p>
-                  <p className="mt-2 font-headline text-xs font-bold uppercase tracking-widest text-[#4C4546]">
-                    {stat.label}
-                  </p>
+                    <CountUp
+                      value={stat.value}
+                      className={`font-headline text-4xl font-bold md:text-5xl ${
+                        index === STATS.length - 1 ? "text-[#BA1A1A]" : "text-[#0059BB]"
+                      }`}
+                    />
+                    <p className="mt-2 font-headline text-xs font-bold uppercase tracking-widest text-[#4C4546]">
+                      {stat.label}
+                    </p>
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -272,36 +298,38 @@ export default async function AboutPage() {
       <section className="border-y-2 border-[#111C2D] bg-[#F9F9FF] py-24 md:py-32">
         <div className="container-brilliant">
           <div className="grid items-center gap-12 lg:grid-cols-2">
-            <Reveal>
-              <div className="relative overflow-hidden border-2 border-[#111C2D] bg-[#111C2D] text-white shadow-[6px_6px_0px_0px_#0059BB]">
-                <div className="absolute right-4 top-4 font-headline text-8xl italic leading-none text-white opacity-10">
-                  {founder ? initials(localized(locale, founder.name, founder.nameAr)) : "AG"}
-                </div>
-                <div className="relative z-10 flex flex-col md:flex-row">
-                  {founder?.imagePath && (
-                    <div className="w-full shrink-0 md:w-72">
-                      <SiteImage
-                        src={founder.imagePath}
-                        alt={localized(locale, founder.name, founder.nameAr)}
-                        className="h-64 w-full object-cover md:h-full"
-                      />
+            <Reveal from="left">
+              <TiltCard className="h-full">
+                <div className="group relative overflow-hidden border-2 border-[#111C2D] bg-[#111C2D] text-white shadow-[6px_6px_0px_0px_#0059BB]">
+                  <div className="absolute right-4 top-4 font-headline text-8xl italic leading-none text-white opacity-10 transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
+                    {founder ? initials(localized(locale, founder.name, founder.nameAr)) : "AG"}
+                  </div>
+                  <div className="relative z-10 flex flex-col md:flex-row">
+                    {founder?.imagePath && (
+                      <div className="w-full shrink-0 overflow-hidden md:w-72">
+                        <SiteImage
+                          src={founder.imagePath}
+                          alt={localized(locale, founder.name, founder.nameAr)}
+                          className="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-105 md:h-full"
+                        />
+                      </div>
+                    )}
+                    <div className="p-8 md:p-12">
+                      <h3 className="font-headline text-4xl uppercase leading-tight tracking-tighter">
+                        {founder ? localized(locale, founder.name, founder.nameAr) : t("founderName")}
+                      </h3>
+                      <p className="mt-4 font-headline text-sm font-bold uppercase tracking-widest text-[#BA1A1A]">
+                        {founder ? localized(locale, founder.jobTitle, founder.jobTitleAr) : t("founderTitle")}
+                      </p>
+                      <p className="mt-6 leading-relaxed text-slate-300">
+                        {t("founderText")}
+                      </p>
                     </div>
-                  )}
-                  <div className="p-8 md:p-12">
-                    <h3 className="font-headline text-4xl uppercase leading-tight tracking-tighter">
-                      {founder ? localized(locale, founder.name, founder.nameAr) : t("founderName")}
-                    </h3>
-                    <p className="mt-4 font-headline text-sm font-bold uppercase tracking-widest text-[#BA1A1A]">
-                      {founder ? localized(locale, founder.jobTitle, founder.jobTitleAr) : t("founderTitle")}
-                    </p>
-                    <p className="mt-6 leading-relaxed text-slate-300">
-                      {t("founderText")}
-                    </p>
                   </div>
                 </div>
-              </div>
+              </TiltCard>
             </Reveal>
-            <Reveal delay={100}>
+            <Reveal from="right" delay={100}>
               <div>
                 <div className="flex items-center gap-4">
                   <div className="h-1 w-12 bg-[#0059BB]" />
@@ -317,9 +345,9 @@ export default async function AboutPage() {
                 </p>
                 <Link
                   href="/team"
-                  className="mt-10 inline-flex items-center gap-2 border-2 border-[#0059BB] px-10 py-3 font-headline text-sm font-bold uppercase tracking-widest text-[#0059BB] transition-all hover:-translate-x-1 hover:-translate-y-1 hover:bg-[#0059BB] hover:text-white hover:shadow-[4px_4px_0px_0px_#111C2D]"
+                  className="group mt-10 inline-flex items-center gap-2 border-2 border-[#BA1A1A] px-10 py-3 font-headline text-sm font-bold uppercase tracking-widest text-[#BA1A1A] transition-all hover:-translate-x-1 hover:-translate-y-1 hover:bg-[#BA1A1A] hover:text-white hover:shadow-[4px_4px_0px_0px_#111C2D]"
                 >
-                  {t("viewFullTeam")} <ArrowRight className="h-4 w-4" />
+                  {t("viewFullTeam")} <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
                 </Link>
               </div>
             </Reveal>

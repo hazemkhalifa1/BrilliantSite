@@ -22,6 +22,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<BlogPostTag> BlogPostTags => Set<BlogPostTag>();
     public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
     public DbSet<Client> Clients => Set<Client>();
+    public DbSet<Testimonial> Testimonials => Set<Testimonial>();
     public DbSet<SocialLink> SocialLinks => Set<SocialLink>();
     public DbSet<ContactInfo> ContactInfos => Set<ContactInfo>();
     public DbSet<HeroSection> HeroSections => Set<HeroSection>();
@@ -40,6 +41,23 @@ public class AppDbContext : IdentityDbContext<AppUser>
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        builder.Entity<ServiceCategory>(entity =>
+        {
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(150);
+            entity.HasMany(e => e.Services)
+                .WithOne(e => e.Category)
+                .HasForeignKey(e => e.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Service>(entity =>
+        {
+            entity.HasOne(e => e.RelatedBlogPost)
+                .WithMany()
+                .HasForeignKey(e => e.RelatedBlogPostId)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
+
         builder.Entity<ProductCategory>(entity =>
         {
             entity.Property(e => e.Name).IsRequired().HasMaxLength(150);
@@ -49,13 +67,12 @@ public class AppDbContext : IdentityDbContext<AppUser>
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        builder.Entity<ServiceCategory>(entity =>
+        builder.Entity<Product>(entity =>
         {
-            entity.Property(e => e.Name).IsRequired().HasMaxLength(150);
-            entity.HasMany(e => e.Services)
-                .WithOne(e => e.Category)
-                .HasForeignKey(e => e.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(e => e.RelatedBlogPost)
+                .WithMany()
+                .HasForeignKey(e => e.RelatedBlogPostId)
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         builder.Entity<ProjectType>(entity =>

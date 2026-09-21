@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 84" role="img" aria-label="Upper Egypt Cement">
+  <path d="M42 14 L60 52 H24 Z" fill="#ba1a1a"/>
+  <path d="M42 26 L50 46 H34 Z" fill="#ffffff"/>
+  <rect x="14" y="66" width="56" height="4" fill="#0059bb"/>
+  <text x="88" y="38" font-family="Space Grotesk, Segoe UI, Arial, sans-serif" font-size="26" font-weight="700" fill="#111c2d">UPPER EGYPT</text>
+  <text x="88" y="60" font-family="Space Grotesk, Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" letter-spacing="4" fill="#111c2d">CEMENT</text>
+</svg>

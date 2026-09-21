@@ -20,6 +20,7 @@ import {
   Tags,
   Users,
   X,
+  MessageSquareQuote,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
@@ -43,6 +44,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     { label: t("blog"), href: "/admin/blog", icon: Newspaper },
     { label: t("team"), href: "/admin/team", icon: Users },
     { label: t("clients"), href: "/admin/clients", icon: Handshake },
+    { label: t("testimonials"), href: "/admin/testimonials", icon: MessageSquareQuote },
     { label: t("settings"), href: "/admin/settings", icon: Settings },
   ];
 

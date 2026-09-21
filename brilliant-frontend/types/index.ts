@@ -41,6 +41,10 @@ export interface Product {
   order: number;
   isActive: boolean;
   createdAt: string;
+  relatedBlogPostId: number | null;
+  relatedBlogPostTitle: string | null;
+  relatedBlogPostTitleAr: string | null;
+  relatedBlogPostSlug: string | null;
 }
 
 export interface ProductBrand {
@@ -78,6 +82,10 @@ export interface Service {
   order: number;
   isActive: boolean;
   createdAt: string;
+  relatedBlogPostId: number | null;
+  relatedBlogPostTitle: string | null;
+  relatedBlogPostTitleAr: string | null;
+  relatedBlogPostSlug: string | null;
 }
 
 export interface ServiceCategory {
@@ -160,6 +168,20 @@ export interface Client {
   name: string;
   nameAr: string | null;
   logoPath: string;
+  order: number;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  nameAr: string | null;
+  quote: string;
+  quoteAr: string | null;
+  role: string;
+  roleAr: string | null;
+  imagePath: string;
   order: number;
   isActive: boolean;
   createdAt: string;

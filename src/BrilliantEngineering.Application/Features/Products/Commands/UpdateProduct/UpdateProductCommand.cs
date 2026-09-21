@@ -12,4 +12,5 @@ public record UpdateProductCommand(
     string ImagePath,
     string DocumentationUrl,
     int CategoryId,
-    bool IsActive) : IRequest<ProductDto>;
+    bool IsActive,
+    int? RelatedBlogPostId = null) : IRequest<ProductDto>;

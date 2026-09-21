@@ -3,11 +3,13 @@ import { Link } from "@/src/i18n/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { ArrowLeft, Box, ChevronLeft, ChevronRight } from "lucide-react";
+import { localeAlternates } from "@/lib/seo";
 import { apiFetch } from "@/lib/api";
+import { Reveal } from "@/components/public/Reveal";
+import { Parallax } from "@/components/public/Parallax";
 import type { PagedResult, Product, ProductBrand, ProductCategory } from "@/types";
 import { localized } from "@/lib/localize";
 import { cn, getImageUrl } from "@/lib/utils";
-import { PageHeader } from "@/components/public/PageHeader";
 import { ProductFilters } from "@/components/public/ProductFilters";
 import { BrutalProductCard } from "@/components/public/BrutalProductCard";
 
@@ -22,10 +24,20 @@ export async function generateMetadata({
   return {
     title: t("metadataTitle"),
     description: t("metadataDescription"),
+    alternates: localeAlternates(locale, "/products"),
   };
 }
 
 const PAGE_SIZE = 12;
+
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1920&q=80";
+
+const heroGridStyle = {
+  backgroundImage:
+    "linear-gradient(to right, rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.07) 1px, transparent 1px)",
+  backgroundSize: "32px 32px",
+} as const;
 
 async function getProductsData() {
   const [brands, categories, products] = await Promise.all([
@@ -85,21 +97,45 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   if (!isProductsView) {
     return (
       <div>
-        <PageHeader eyebrow={t("eyebrow")} title={t("title")} subtitle={t("subtitle")} backgroundImage="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=80" />
+        <section className="relative overflow-hidden bg-neutral pb-24 pt-32 md:pb-32 md:pt-48">
+          <div className="absolute inset-0" style={heroGridStyle} />
+          <div className="absolute inset-0">
+            <Parallax speed={0.08} className="h-full w-full">
+              <div
+                className="h-full w-full bg-cover bg-center opacity-30 mix-blend-luminosity"
+                style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
+              />
+            </Parallax>
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-neutral/80 to-neutral/50" />
 
-        <section className="py-16 md:py-20">
+          <div className="relative z-20 mx-auto w-full max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+            <span className="mb-6 inline-block bg-tertiary px-4 py-1.5 font-headline text-sm font-bold uppercase tracking-widest text-white">
+              {t("eyebrow")}
+            </span>
+            <h1 className="mx-auto mb-6 max-w-3xl font-headline text-5xl font-bold uppercase leading-tight tracking-tighter text-white md:text-7xl">
+              {t("title")}
+            </h1>
+            <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-300 md:text-xl">
+              {t("subtitle")}
+            </p>
+          </div>
+        </section>
+
+        <section className="py-16 md:py-24">
           <div className="container-brilliant">
             {brands.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {brands.map((brand) => {
+                {brands.map((brand, index) => {
                   const brandImage =
                     brand.backgroundImagePath || firstProductImageByBrand.get(brand.id) || null;
                   return (
-                    <Link
-                      key={brand.id}
-                      href={makeUrl({ brandId: brand.id, categoryId: null, page: 1 })}
-                      className="group block"
-                    >
+                    <Reveal key={brand.id} delay={index * 70} from={index % 2 === 0 ? "left" : "right"}>
+                      <div className="pop-card h-full" style={{ transitionDelay: `${index * 70 + 100}ms` }}>
+                      <Link
+                        href={makeUrl({ brandId: brand.id, categoryId: null, page: 1 })}
+                        className="group block h-full"
+                      >
                       <div className="overflow-hidden border-2 border-black bg-white shadow-[4px_4px_0px_black] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:border-[#BA1A1A] hover:shadow-[6px_6px_0px_#BA1A1A]">
                         <div className="relative aspect-[16/10] bg-neutral-light">
                           {brandImage ? (
@@ -128,7 +164,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                           )}
                         </div>
                       </div>
-                    </Link>
+                      </Link>
+                      </div>
+                    </Reveal>
                   );
                 })}
               </div>
@@ -160,13 +198,15 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   return (
     <div>
       <section className="relative overflow-hidden bg-[#111C2D] py-24 text-white md:py-28">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=80')",
-          }}
-        />
+        <Parallax speed={0.08} className="absolute inset-0">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage:
+                "url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=80')",
+            }}
+          />
+        </Parallax>
         <div className="absolute inset-0 bg-[#111C2D]/80" />
         <div className="container-brilliant relative z-10">
           <Link
@@ -200,8 +240,12 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             <div className="md:col-span-9">
               {result.items.length > 0 ? (
                 <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
-                  {result.items.map((product) => (
-                    <BrutalProductCard key={product.id} product={product} />
+                  {result.items.map((product, index) => (
+                    <Reveal key={product.id} delay={index * 70} from={index % 2 === 0 ? "left" : "right"}>
+                      <div className="pop-card h-full" style={{ transitionDelay: `${index * 70 + 100}ms` }}>
+                        <BrutalProductCard product={product} />
+                      </div>
+                    </Reveal>
                   ))}
                 </div>
               ) : (
@@ -209,7 +253,8 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               )}
 
               {totalPages > 1 && (
-                <div className="mt-16 flex flex-wrap justify-center gap-4">
+                <Reveal delay={120}>
+                  <div className="mt-16 flex flex-wrap justify-center gap-4">
                   <Link
                     href={makeUrl({ brandId: selectedBrand?.id, categoryId, page: pageIndex - 1 })}
                     aria-label={t("prevPage")}
@@ -240,6 +285,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                     <ChevronRight className="h-5 w-5" />
                   </Link>
                 </div>
+                </Reveal>
               )}
             </div>
           </div>

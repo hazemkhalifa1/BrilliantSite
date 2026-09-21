@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { TeamMember } from "@/types";
 import { localized } from "@/lib/localize";
-import { truncate } from "@/lib/utils";
 import { SiteImage } from "@/components/ui/SiteImage";
 
 type TeamCardVariant = "featured" | "row";
@@ -18,70 +17,20 @@ function memberInitials(name: string): string {
   return (first + last).toUpperCase();
 }
 
-function InitialsFallback({
-  name,
-  sizeClassName = "text-5xl",
-}: {
-  name: string;
-  sizeClassName?: string;
-}) {
-  return (
-    <div
-      className={`absolute inset-0 flex items-center justify-center bg-secondary/10 font-headline font-bold text-secondary ${sizeClassName}`}
-    >
-      {memberInitials(name)}
-    </div>
-  );
-}
-
-// Registration crosshair — the drawing-sheet signature.
-function CornerMark({ className }: { className?: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`pointer-events-none absolute select-none font-mono text-[11px] font-medium leading-none text-neutral/40 ${className ?? ""}`}
-    >
-      +
-    </span>
-  );
-}
-
-function MemberImage({
-  member,
-  name,
-  className,
-  sizeClassName,
-  marks = true,
-}: {
-  member: TeamMember;
-  name: string;
-  className?: string;
-  sizeClassName?: string;
-  marks?: boolean;
-}) {
+function MemberMedia({ member, name }: { member: TeamMember; name: string }) {
   const [failed, setFailed] = useState(false);
   const showFallback = !member.imagePath || failed;
 
-  return (
-    <div className={`relative overflow-hidden bg-neutral-light blueprint-grid ${className ?? ""}`}>
-      {!showFallback ? (
-        <SiteImage
-          src={member.imagePath}
-          alt={name}
-          className="team-photo absolute inset-0 h-full w-full object-contain"
-          onError={() => setFailed(true)}
-        />
-      ) : (
-        <InitialsFallback name={name} sizeClassName={sizeClassName} />
-      )}
+  if (showFallback) {
+    return (
+      <div className="neo-fallback">
+        <span>{memberInitials(name)}</span>
+      </div>
+    );
+  }
 
-      {marks && (
-        <>
-          <CornerMark className="start-4 top-4" />
-          <CornerMark className="bottom-4 end-4" />
-        </>
-      )}
-    </div>
+  return (
+    <SiteImage src={member.imagePath} alt={name} onError={() => setFailed(true)} />
   );
 }
 
@@ -98,48 +47,34 @@ function FeaturedCard({
   description: string;
   tagline?: string;
 }) {
+  const t = useTranslations("team");
   const monogram = memberInitials(name);
-  return (
-    <article className="team-card card-brilliant grid overflow-hidden lg:grid-cols-12">
-      <MemberImage
-        member={member}
-        name={name}
-        className="aspect-[4/3] lg:col-span-7 lg:aspect-auto lg:min-h-[440px]"
-        sizeClassName="text-6xl"
-      />
 
-      <div className="relative flex flex-col justify-between overflow-hidden bg-neutral p-8 text-white md:p-10 lg:col-span-5 lg:p-12">
-        <span
-          aria-hidden="true"
-          className="team-monogram pointer-events-none absolute -bottom-8 -right-4 select-none font-headline text-[10rem] font-bold leading-none text-white/5 md:text-[12rem]"
-        >
+  return (
+    <article className="neo-featured">
+      <div className="neo-featured__media">
+        <MemberMedia member={member} name={name} />
+      </div>
+
+      <div className="neo-featured__info">
+        <span className="neo-featured__monogram" aria-hidden="true">
           {monogram}
         </span>
-
-        <div className="relative">
-          <span aria-hidden="true" className="block h-[3px] w-16 bg-tertiary" />
-          <h2 className="mt-6 font-headline text-3xl font-bold uppercase leading-[1.05] tracking-tight md:text-4xl">
-            {name}
-          </h2>
-          <p className="mt-4 font-headline text-sm font-semibold uppercase tracking-widest text-tertiary">
-            {role}
+        <span className="neo-featured__index">{t("eyebrow")}</span>
+        <span className="neo-featured__role">{role}</span>
+        <h2 className="neo-featured__name">{name}</h2>
+        <span className="neo-featured__accent" aria-hidden="true" />
+        {description ? (
+          <p className="neo-featured__desc">
+            <span className="mt-5 block">{description}</span>
           </p>
-          {description ? (
-            <p className="mt-6 max-w-md text-sm leading-relaxed text-white/70">{description}</p>
-          ) : null}
-        </div>
-
-        {tagline && (
-          <p className="relative mt-10 font-headline text-xs font-semibold uppercase tracking-widest text-white/50">
-            {tagline}
-          </p>
-        )}
+        ) : null}
+        {tagline ? <p className="neo-featured__tagline">{tagline}</p> : null}
       </div>
     </article>
   );
 }
 
-// Supporting members — photo thumbnail + services-style content.
 function RowCard({
   member,
   name,
@@ -152,25 +87,18 @@ function RowCard({
   description: string;
 }) {
   return (
-    <article className="team-card card-brilliant group grid h-full overflow-hidden transition-colors duration-500 hover:border-tertiary sm:grid-cols-[200px_1fr]">
-      <MemberImage
-        member={member}
-        name={name}
-        className="h-44 sm:h-auto"
-        sizeClassName="text-3xl"
-        marks={false}
-      />
-
-      <div className="flex flex-col justify-center p-6 md:p-8">
-        <span className="font-headline text-xs font-semibold uppercase tracking-widest text-neutral/50">
-          {role}
-        </span>
-        <h3 className="mt-3 font-headline text-lg font-bold uppercase leading-tight md:text-xl">
-          {name}
-        </h3>
-        <span aria-hidden="true" className="team-accent mt-3 block h-[3px] w-8 bg-tertiary" />
+    <article className="neo-team-card group h-full">
+      <div className="neo-team-card__media">
+        <MemberMedia member={member} name={name} />
+      </div>
+      <div className="neo-team-card__body">
+        <div className="neo-team-card__role">{role}</div>
+        <h3 className="neo-team-card__name">{name}</h3>
+        <span className="neo-team-card__accent" aria-hidden="true" />
         {description ? (
-          <p className="mt-3 text-sm leading-relaxed text-neutral/70">{truncate(description, 180)}</p>
+          <p className="neo-team-card__desc">
+            <span className="mt-3 block">{description}</span>
+          </p>
         ) : null}
       </div>
     </article>

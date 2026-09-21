@@ -33,6 +33,7 @@ public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand,
             CategoryId = request.CategoryId,
             Order = request.Order,
             IsActive = request.IsActive,
+            RelatedBlogPostId = request.RelatedBlogPostId,
         };
 
         _unitOfWork.Repository<Service>().Add(service);

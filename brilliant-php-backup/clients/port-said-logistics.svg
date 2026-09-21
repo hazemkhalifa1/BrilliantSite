@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 84" role="img" aria-label="Port Said Logistics">
+  <rect x="14" y="14" width="56" height="56" fill="#0059bb"/>
+  <path d="M42 18 v22 M42 40 v14 M42 18 l-5 10 h10 Z" stroke="#ffffff" stroke-width="5" fill="none"/>
+  <path d="M42 66 V56 M42 66 l-8 -2 8 2 8 -2" stroke="#ffffff" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <text x="88" y="38" font-family="Space Grotesk, Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#111c2d">PORT SAID</text>
+  <text x="88" y="60" font-family="Space Grotesk, Segoe UI, Arial, sans-serif" font-size="11" font-weight="600" letter-spacing="3" fill="#ba1a1a">LOGISTICS</text>
+</svg>

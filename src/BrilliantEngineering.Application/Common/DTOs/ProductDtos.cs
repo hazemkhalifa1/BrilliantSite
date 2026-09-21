@@ -13,7 +13,11 @@ public record ProductDto(
     int? BrandId = null,
     string BrandName = "",
     bool IsActive = false,
-    DateTime CreatedAt = default);
+    DateTime CreatedAt = default,
+    int? RelatedBlogPostId = null,
+    string? RelatedBlogPostTitle = null,
+    string? RelatedBlogPostTitleAr = null,
+    string? RelatedBlogPostSlug = null);
 
 public record ProductBrandDto(
     int Id,

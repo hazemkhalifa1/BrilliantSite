@@ -13,6 +13,7 @@ export function Navbar() {
   const t = useTranslations("nav");
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
 
   const NAV_LINKS = [
     { label: t("home"), href: "/" },
@@ -28,8 +29,22 @@ export function Navbar() {
     setOpen(false);
   }, [pathname]);
 
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="absolute left-0 right-0 top-0 z-50 bg-transparent">
+    <header
+      className={cn(
+        "absolute left-0 right-0 top-0 z-50 transition-all duration-300",
+        scrolled
+          ? "border-b border-white/10 bg-[#111C2D]/95 shadow-lg shadow-black/30 backdrop-blur-sm"
+          : "bg-transparent",
+      )}
+    >
       <div className="container-brilliant">
         <div className="flex h-20 w-full items-center justify-between">
         <Link href="/" className="flex items-center" aria-label={t("homeAria")}>

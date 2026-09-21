@@ -35,6 +35,7 @@ public class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand,
         service.CategoryId = request.CategoryId;
         service.Order = request.Order;
         service.IsActive = request.IsActive;
+        service.RelatedBlogPostId = request.RelatedBlogPostId;
 
         _unitOfWork.Repository<Service>().Update(service);
         await _unitOfWork.Complete();

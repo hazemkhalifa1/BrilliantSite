@@ -20,6 +20,9 @@ export function PublishToggleButton({ id, isPublished }: PublishToggleButtonProp
     setLoading(true);
     try {
       await apiFetch(`/blog/${id}/${isPublished ? "unpublish" : "publish"}`, { method: "POST" });
+      if (!isPublished) {
+        fetch("/api/seo/ping", { method: "POST", keepalive: true }).catch(() => {});
+      }
       router.refresh();
     } catch {
       // Ignore: list will refresh on next navigation

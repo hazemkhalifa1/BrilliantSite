@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
+import { localeAlternates } from "@/lib/seo";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import type { ContactInfo, PagedResult, SocialLink } from "@/types";
 import { localized } from "@/lib/localize";
-import { PageHeader } from "@/components/public/PageHeader";
 import { ContactForm } from "@/components/public/ContactForm";
+import { Reveal } from "@/components/public/Reveal";
+import { Parallax } from "@/components/public/Parallax";
 
 export const dynamic = "force-dynamic";
 
@@ -18,8 +20,18 @@ export async function generateMetadata({
   return {
     title: t("metadataTitle"),
     description: t("metadataDescription"),
+    alternates: localeAlternates(locale, "/contact"),
   };
 }
+
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1920&q=80";
+
+const heroGridStyle = {
+  backgroundImage:
+    "linear-gradient(to right, rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.07) 1px, transparent 1px)",
+  backgroundSize: "32px 32px",
+} as const;
 
 async function getContactData() {
   const contact = await apiFetch<ContactInfo>("/contact").catch(() => null);
@@ -36,19 +48,40 @@ export default async function ContactPage() {
 
   return (
     <div>
-      <PageHeader
-        eyebrow={t("eyebrow")}
-        title={t("title")}
-        subtitle={t("subtitle")}
-        backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80"
-      />
+      <section className="relative overflow-hidden bg-neutral pb-24 pt-32 md:pb-32 md:pt-48">
+        <div className="absolute inset-0" style={heroGridStyle} />
+        <div className="absolute inset-0">
+          <Parallax speed={0.08} className="h-full w-full">
+            <div
+              className="h-full w-full bg-cover bg-center opacity-30 mix-blend-luminosity"
+              style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
+            />
+          </Parallax>
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-neutral/80 to-neutral/50" />
+
+        <div className="relative z-20 mx-auto w-full max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <span className="mb-6 inline-block bg-tertiary px-4 py-1.5 font-headline text-sm font-bold uppercase tracking-widest text-white">
+            {t("eyebrow")}
+          </span>
+          <h1 className="mx-auto mb-6 max-w-3xl font-headline text-5xl font-bold uppercase leading-tight tracking-tighter text-white md:text-7xl">
+            {t("title")}
+          </h1>
+          <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-300 md:text-xl">
+            {t("subtitle")}
+          </p>
+        </div>
+      </section>
 
       <section className="py-16 md:py-20">
         <div className="container-brilliant grid gap-10 lg:grid-cols-2">
-          <ContactForm />
+          <Reveal from="left">
+            <ContactForm />
+          </Reveal>
 
-          <div>
-            <div className="card-brilliant bg-neutral p-8 text-white">
+          <Reveal from="right" delay={120}>
+            <div>
+              <div className="card-brilliant bg-neutral p-8 text-white">
               <h2 className="font-headline text-xl font-bold uppercase">{t("contactInfo")}</h2>
               <span className="mt-2 block h-[3px] w-10 bg-tertiary" aria-hidden="true" />
 
@@ -111,22 +144,25 @@ export default async function ContactPage() {
                 </div>
               )}
             </div>
-          </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {contact?.mapEmbedUrl && (
         <section className="pb-16 md:pb-20">
           <div className="container-brilliant">
-            <div className="aspect-[21/9] w-full overflow-hidden border border-line">
-              <iframe
-                src={contact.mapEmbedUrl}
-                title={t("mapTitle")}
-                className="h-full w-full"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
+            <Reveal>
+              <div className="aspect-[21/9] w-full overflow-hidden border border-line">
+                <iframe
+                  src={contact.mapEmbedUrl}
+                  title={t("mapTitle")}
+                  className="h-full w-full"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+            </Reveal>
           </div>
         </section>
       )}

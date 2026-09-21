@@ -33,6 +33,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             DocumentationUrl = request.DocumentationUrl,
             CategoryId = request.CategoryId,
             IsActive = request.IsActive,
+            RelatedBlogPostId = request.RelatedBlogPostId,
         };
 
         _unitOfWork.Repository<Product>().Add(product);

@@ -41,6 +41,7 @@ public class ProductByIdWithCategoryBrandSpec : BaseSpecification<Product>
     public ProductByIdWithCategoryBrandSpec(int id)
     {
         AddInclude(p => p.Category!.Brand!);
+        AddInclude(p => p.RelatedBlogPost!);
         ApplyCriteria(p => p.Id == id);
     }
 }

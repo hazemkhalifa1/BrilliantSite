@@ -6,7 +6,7 @@ import { useRouter } from "@/src/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
 import { apiFetch } from "@/lib/api";
-import type { Service, ServiceCategory } from "@/types";
+import type { BlogPost, Service, ServiceCategory } from "@/types";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { TextArea } from "@/components/admin/TextArea";
@@ -17,9 +17,10 @@ import { ImageUpload } from "@/components/admin/ImageUpload";
 export interface ServiceFormProps {
   initial?: Service;
   categories: ServiceCategory[];
+  blogPosts: BlogPost[];
 }
 
-export function ServiceForm({ initial, categories }: ServiceFormProps) {
+export function ServiceForm({ initial, categories, blogPosts }: ServiceFormProps) {
   const router = useRouter();
   const t = useTranslations("admin.form");
   const section = useTranslations("admin.sections.services");
@@ -33,6 +34,9 @@ export function ServiceForm({ initial, categories }: ServiceFormProps) {
   const [iconPath, setIconPath] = useState<string | null>(initial?.iconPath ?? null);
   const [order, setOrder] = useState(initial?.order != null ? String(initial.order) : "0");
   const [isActive, setIsActive] = useState(initial?.isActive ?? true);
+  const [relatedBlogPostId, setRelatedBlogPostId] = useState(
+    initial?.relatedBlogPostId != null ? String(initial.relatedBlogPostId) : "",
+  );
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -62,6 +66,7 @@ export function ServiceForm({ initial, categories }: ServiceFormProps) {
             categoryId: Number(categoryId),
             order: Number(order) || 0,
             isActive,
+            relatedBlogPostId: relatedBlogPostId ? Number(relatedBlogPostId) : null,
           }),
         });
       } else {
@@ -76,6 +81,7 @@ export function ServiceForm({ initial, categories }: ServiceFormProps) {
             categoryId: Number(categoryId),
             order: Number(order) || 0,
             isActive,
+            relatedBlogPostId: relatedBlogPostId ? Number(relatedBlogPostId) : null,
           }),
         });
       }
@@ -166,6 +172,18 @@ export function ServiceForm({ initial, categories }: ServiceFormProps) {
           value={order}
           onChange={(event) => setOrder(event.target.value)}
           placeholder="0"
+        />
+
+        <Select
+          label={t("relatedBlogPost")}
+          name="relatedBlogPostId"
+          value={relatedBlogPostId}
+          onChange={(event) => setRelatedBlogPostId(event.target.value)}
+          options={blogPosts.map((post) => ({
+            value: String(post.id),
+            label: post.title,
+          }))}
+          placeholder={t("none")}
         />
 
         <Toggle

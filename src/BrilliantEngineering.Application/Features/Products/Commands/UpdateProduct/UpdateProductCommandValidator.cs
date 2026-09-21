@@ -14,5 +14,6 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
         RuleFor(x => x.CategoryId).GreaterThan(0);
         RuleFor(x => x.ImagePath).MaximumLength(500);
         RuleFor(x => x.DocumentationUrl).MaximumLength(500);
+        RuleFor(x => x.RelatedBlogPostId).GreaterThan(0).When(x => x.RelatedBlogPostId.HasValue);
     }
 }

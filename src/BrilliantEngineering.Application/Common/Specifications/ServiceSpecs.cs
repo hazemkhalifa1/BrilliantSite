@@ -38,6 +38,7 @@ public class ServiceByIdWithCategorySpec : BaseSpecification<Service>
     public ServiceByIdWithCategorySpec(int id)
     {
         AddInclude(s => s.Category!);
+        AddInclude(s => s.RelatedBlogPost!);
         ApplyCriteria(s => s.Id == id);
     }
 }

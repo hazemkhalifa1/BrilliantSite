@@ -12,5 +12,6 @@ public class CreateServiceCommandValidator : AbstractValidator<CreateServiceComm
         RuleFor(x => x.DescriptionAr).MaximumLength(2000);
         RuleFor(x => x.CategoryId).GreaterThan(0);
         RuleFor(x => x.IconPath).MaximumLength(500);
+        RuleFor(x => x.RelatedBlogPostId).GreaterThan(0).When(x => x.RelatedBlogPostId.HasValue);
     }
 }

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 84" role="img" aria-label="Nile Developments">
+  <rect x="14" y="14" width="56" height="56" fill="#111c2d"/>
+  <text x="42" y="47" font-family="Space Grotesk, Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">ND</text>
+  <path d="M14 63 h22 v-6 l8 8 l9 -11 l5 6 v3 z" fill="#0059bb"/>
+  <text x="88" y="38" font-family="Space Grotesk, Segoe UI, Arial, sans-serif" font-size="30" font-weight="700" fill="#111c2d">NILE</text>
+  <text x="88" y="60" font-family="Space Grotesk, Segoe UI, Arial, sans-serif" font-size="11" font-weight="600" letter-spacing="4" fill="#0059bb">DEVELOPMENTS</text>
+</svg>

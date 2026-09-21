@@ -1,0 +1,41 @@
+# ============================================================
+# App environment variables — BrilliantLandingPageInPHP
+# Read by config.php via getenv(). Keep this file out of git.
+# NOTE: SetEnv works under Apache mod_php / LiteSpeed. If your
+#       host runs PHP-FPM and getenv() returns false, set these
+#       in cPanel instead: PHP -> Per-directory settings ->
+#       Environment Variables.
+# ============================================================
+SetEnv DB_DRIVER mysql
+SetEnv DB_HOST localhost
+SetEnv DB_NAME brillianteng_newz
+SetEnv DB_USER brillianteng_newz
+SetEnv DB_PASS XqE15GwCW8zdtoPGsjx2026
+SetEnv JWT_SECRET NvsPJR3930UxXnsrn9NbOJX7Ekrbw1+Bth/zgqniwATBWFAmyVIFqcIcEz2BwFYTW9/VExEnTFEAQjGRYIVjog==
+SetEnv ADMIN_PASSWORD Admin@123456
+SetEnv SITE_URL https://brilliant-eng.com
+
+Options -Indexes
+DirectoryIndex index.php index.html
+
+# --- Apache / LiteSpeed (cPanel shared hosting) ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Serve existing files/directories directly; route the rest to the front controller
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.php [L]
+</IfModule>
+
+# --- PHP settings (harmless if the host uses different handlers) ---
+<IfModule mod_php.c>
+  php_flag display_errors Off
+  php_value upload_max_filesize 16M
+  php_value post_max_size 32M
+  php_value max_execution_time 120
+</IfModule>
+
+# Prevent directory listing & protect sensitive dotfiles
+<FilesMatch "^\.(htaccess|gitignore|user\.ini)$">
+  Require all denied
+</FilesMatch>

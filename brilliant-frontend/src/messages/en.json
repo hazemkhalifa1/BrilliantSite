@@ -70,7 +70,12 @@
     "defaultSubtext": "Delivering world-class infrastructure through technical rigor, architectural innovation, and unwavering attention to detail.",
     "defaultPrimaryBtn": "View Our Projects",
     "defaultSecondaryBtn": "Learn More",
+    "scrollHint": "Scroll",
     "metricsLabel": "// PROJECT_METRICS",
+    "testimonialsEyebrow": "Client Voices",
+    "testimonialsTitle1": "Trusted by",
+    "testimonialsTitle2": "Builders.",
+    "testimonialsText": "What owners, engineers and partners say about working with Brilliant.",
     "servicesEyebrow": "Our Technical Expertise",
     "servicesTitle1": "Built for",
     "servicesTitle2": "Performance.",
@@ -86,7 +91,33 @@
     "portfolioTitle1": "Flagship",
     "portfolioTitle2": "Projects",
     "viewAllProjects": "View All Projects",
-    "projectFallback": "Project"
+    "projectFallback": "Project",
+    "ctaTitle": "Let's build what lasts",
+    "ctaText": "From first sketch to final handover — one team, one standard, delivered on time.",
+    "ctaButton": "Start Your Project",
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Questions, answered",
+      "text": "Straight answers about how we build, what we deliver and how we work.",
+      "items": [
+        {
+          "q": "What does Brilliant Engineering do?",
+          "a": "We are a general contracting company delivering turnkey projects, MEP works, civil construction and industrial ventilation systems — engineered, built and handed over by one accountable team."
+        },
+        {
+          "q": "Where do you operate?",
+          "a": "We work across Egypt. Our headquarters and engineering studio are in Cairo, and we mobilise teams to client sites wherever the project demands."
+        },
+        {
+          "q": "How do you keep projects on time?",
+          "a": "Every project starts with a detailed work-breakdown schedule. We plan backwards from handover, track progress weekly, and surface risks early — so timelines stay commitments, not hopes."
+        },
+        {
+          "q": "How do I get a quote?",
+          "a": "Use the contact form or call us directly. Within one business day our team reviews your scope, asks the right questions, and prepares a clear commercial proposal."
+        }
+      ]
+    }
   },
   "products": {
     "metadataTitle": "Our Brands",
@@ -115,7 +146,8 @@
     "downloadDocs": "Download Docs",
     "notAvailable": "Not available",
     "catalog": "Catalog",
-    "moreFrom": "More from {brand}"
+    "moreFrom": "More from {brand}",
+    "relatedGuide": "Want a deeper look? Read our guide:"
   },
   "productFilters": {
     "filters": "Filters",
@@ -158,7 +190,8 @@
   "blogPost": {
     "notFound": "Post Not Found",
     "allPosts": "All Posts",
-    "relatedPosts": "Related Posts"
+    "relatedPosts": "Related Posts",
+    "readingTime": "{count} min read"
   },
   "team": {
     "metadataTitle": "Our Team",
@@ -166,7 +199,17 @@
     "eyebrow": "Leadership",
     "title": "Our Team",
     "subtitle": "The engineers, project managers and specialists who bring every Brilliant Engineering project to life.",
-    "updating": "Our team page is being updated."
+    "updating": "Our team page is being updated.",
+    "pillarsEyebrow": "How we work",
+    "pillarsTitle": "Standards, not slogans",
+    "pillarPrecisionTitle": "Precision",
+    "pillarPrecisionText": "Every drawing, joint and handover engineered to exacting standards.",
+    "pillarDeliveryTitle": "Delivery",
+    "pillarDeliveryText": "We commit to timelines and own them through to completion.",
+    "pillarSafetyTitle": "Safety",
+    "pillarSafetyText": "Zero-compromise safety culture on every site, every day.",
+    "ctaTitle": "Work with a team that owns it",
+    "ctaText": "Bring your next project to a team that treats it like their own."
   },
   "clients": {
     "metadataTitle": "Our Clients",
@@ -174,7 +217,26 @@
     "eyebrow": "Our Partners",
     "title": "Our Clients",
     "subtitle": "Organisations across industry, infrastructure and commercial sectors trust us to deliver.",
-    "updating": "Our clients page is being updated."
+    "updating": "Our clients page is being updated.",
+    "emptySubtitle": "We are on-boarding our newest partnerships right now. Follow our projects page or reach out, and we will send you the full list.",
+    "countLabel": "Active partners",
+    "marquee": [
+      "Turnkey Projects",
+      "MEP Works",
+      "Civil Construction",
+      "Industrial Ventilation",
+      "Since 2009"
+    ],
+    "whyEyebrow": "Why Brilliant",
+    "whyTitle": "Built to be relied on",
+    "pillarTrustedTitle": "Trusted Delivery",
+    "pillarTrustedText": "Every engagement is a partnership — on time, on spec, no surprises.",
+    "pillarRigorTitle": "Technical Rigor",
+    "pillarRigorText": "Engineering discipline behind every decision, from sketch to handover.",
+    "pillarPartnersTitle": "Long-Term Partners",
+    "pillarPartnersText": "Clients who start once stay for the next project — and the one after.",
+    "ctaTitle": "Let's build together",
+    "ctaText": "Partner with a contractor that delivers — safely, precisely, on time."
   },
   "contact": {
     "metadataTitle": "Contact Us",
@@ -226,7 +288,8 @@
     "allServices": "All Services",
     "sector": "Sector {number}",
     "requestService": "Request This Service",
-    "showMore": "Show More Services"
+    "showMore": "Show More Services",
+    "relatedGuide": "Want a deeper look? Read our guide:"
   },
   "about": {
     "metadataTitle": "About Us",
@@ -315,8 +378,9 @@
       "productBrands": "Product Brands",
       "productCategories": "Product Categories",
       "blog": "Blog",
-      "team": "Team",
+"team": "Team",
       "clients": "Clients",
+      "testimonials": "Testimonials",
       "settings": "Settings",
       "signOut": "Sign Out",
       "viewSite": "View Site",
@@ -336,6 +400,7 @@
       "newBlogPost": "New Blog Post",
       "newTeamMember": "New Team Member",
       "newClient": "New Client",
+      "newTestimonial": "New Testimonial",
       "contactInfo": "Contact Info",
       "phone": "Phone",
       "email": "Email",
@@ -349,7 +414,8 @@
         "products": "Products",
         "blog": "Blog Posts",
         "team": "Team Members",
-        "clients": "Clients"
+        "clients": "Clients",
+        "testimonials": "Testimonials"
       }
     },
     "list": {
@@ -440,6 +506,14 @@
         "entity": "client",
         "entityTitle": "Client",
         "headers": { "client": "Client", "order": "Order", "status": "Status" }
+      },
+      "testimonials": {
+        "title": "Testimonials",
+        "description": "Manage client testimonials shown on your website.",
+        "new": "New Testimonial",
+        "entity": "testimonial",
+        "entityTitle": "Testimonial",
+        "headers": { "client": "Client", "role": "Role", "order": "Order", "status": "Status" }
       }
     },
     "form": {
@@ -449,6 +523,7 @@
       "update": "Update {entity}",
       "titleRequired": "Title is required.",
       "nameRequired": "Name is required.",
+      "quoteRequired": "Quote is required.",
       "selectCategory": "Please select a category.",
       "selectBrand": "Please select a brand.",
       "selectType": "Please select a project type.",
@@ -506,6 +581,13 @@
       "serviceCategoryDescriptionPlaceholder": "Short description shown on the services page when this category is selected.",
       "postTitlePlaceholder": "e.g. How We Deliver Projects On Time",
       "teamMemberNamePlaceholder": "e.g. Eng. Ahmed Hassan",
+      "testimonialNamePlaceholder": "e.g. Eng. Mohamed Adel",
+      "quote": "Quote",
+      "quoteAr": "Quote (Arabic)",
+      "quotePlaceholder": "e.g. Brilliant delivered our factory ahead of schedule with outstanding quality.",
+      "role": "Role",
+      "roleAr": "Role (Arabic)",
+      "rolePlaceholder": "e.g. Procurement Director, ACME Industries",
       "jobTitle": "Job Title",
       "jobTitlePlaceholder": "e.g. Chief Executive Officer",
       "photo": "Photo",
@@ -518,7 +600,10 @@
       "jobTitleAr": "Job Title (Arabic)",
       "metaTitleAr": "Meta Title (Arabic)",
       "metaDescriptionAr": "Meta Description (Arabic)",
-      "arPlaceholder": "Optional — shown on the Arabic site"
+      "arPlaceholder": "Optional — shown on the Arabic site",
+      "relatedBlogPost": "Related Blog Post",
+      "relatedBlogPostPlaceholder": "Optionally link a blog post that expands on this item…",
+      "none": "None"
     },
     "settings": {
       "title": "Settings",
